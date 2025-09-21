@@ -54,10 +54,23 @@ Bit* TicTacToe::PieceForPlayer(const int playerNumber)
 void TicTacToe::setUpBoard()
 {
     // here we should call setNumberOfPlayers to 2 and then set up the game options so the mouse knows to draw a 3x3 grid
+    setNumberOfPlayers(2);
     // _gameOptions has a rowX and rowY property we should set to 3
+    _gameOptions.rowX = 3;
+    _gameOptions.rowY = 3;  
     // then we need to setup our 3x3 array in _grid with the correct position of the square, and load the "square.png" sprite for each square
-    // we will use the initHolder function on each square to do this
+    float cellSize = 100.0f;
+
+    for(int x = 0; x < 3; x++){
+        for(int y = 0; y < 3; y++){
+            ImVec2 pos(x * cellSize, y * cellSize);
+
+            _grid[x][y].initHolder(pos, "square.png", x, y);
+        }
+    }
+    // Assuming _grid is declared as BitHolder* _grid[3][3]; in the header
     // finally we should call startGame to get everything going
+    startGame();
 }
 
 //
@@ -209,10 +222,60 @@ void TicTacToe::setStateString(const std::string &s)
 
 
 //
-// this is the function that will be called by the AI
-//
-void TicTacToe::updateAI() 
-{
-    // we will implement the AI in the next assignment!
-}
+// // this is the function that will be called by the AI
+// //
+// void TicTacToe::updateAI() {
+//     // we will implement the AI in the next assignment!
 
+//     std::string state = stateString();
+//     int bestMove = -10000;
+//     int bestSquare = -1;
+//     for(int i = 0; i < 9; i++){
+//         if (state[i] == '0'){
+//             state[i] = '2';
+//             int aiMove = -negamax(state, 0, HUMAN_PLAYER);
+//             state[i] = '0';
+//             if(aiMove > bestMove) {
+//                 bestMove = aiMove;
+//                 bestSquare = i;
+//             }
+//         }
+//     }
+
+//     if (bestSquare != -1){
+//         actionForEmptyHolder(&_grid[bestSquare / 3][bestSquare % 3]);
+//         endTurn();
+//     }
+// }
+
+// bool isAIBoardFull(const std::string& state){
+//     return (state.find('0') == std::string::npos);
+// }
+
+// int checkForAIWinner(const std::string& state){
+//     //copy from lecture 16:30ish   and   26:30
+// }
+
+// int TicTacToe::negamax(std::string& state, int depth, int playerColor){
+//     int score = checkForAIWinner(state);
+
+//     if(score){
+//         // a winning state here is a loss for the recursive parent
+//         return -score;
+//     }
+
+//     if(isAIBoardFull(state)){
+//         return 0; //draw
+//     }
+
+//     int bestVal = -10000;
+//     for(int i =0; i < 9; i++){
+//         if (state[i] == '0'){
+//             state[i] = playerColor == HUMAN_PLAYER ? '1' : '2';
+//             bestVal = std::max(bestVal, -negamax(state, depth+1, -playerColor));
+//             state[i] = '0';
+//         }
+//     }
+
+//     return bestVal;
+// }
