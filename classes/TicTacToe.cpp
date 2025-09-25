@@ -306,13 +306,19 @@ int TicTacToe::negamax(std::string& state, int depth, int alpha, int beta, int p
     }
 
     int bestVal = -10000;
-    for(int i =0; i < 9; i++){
+    for(int i = 0; i < 9; i++){
         if (state[i] == '0'){
             state[i] = playerColor == HUMAN_PLAYER ? '1' : '2';
-            bestVal = std::max(bestVal, -negamax(state, depth+1, -beta, -alpha, -playerColor));
+            int val = std::max(bestVal, -negamax(state, depth+1, -beta, -alpha, -playerColor));
             state[i] = '0';
+
+            bestVal = std::max(bestVal, val);
+            alpha = std::max(alpha, val);
+
+            if(alpha >= beta){
+                break;
+            }
         }
     }
-
     return bestVal;
 }
