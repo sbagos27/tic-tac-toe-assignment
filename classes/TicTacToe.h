@@ -17,8 +17,6 @@ public:
 
     // set up the board
     void        setUpBoard() override;
-    void        displayMessage(const std::string &text); // added this to display winner or draw in im gui
-    void        updateGameState(); // added this after a action is done to make it easier to check for winners and draws    
     Player*     checkForWinner() override;
     bool        checkForDraw() override;
     std::string initialStateString() override;
@@ -39,4 +37,3 @@ private:
 
     Square      _grid[3][3];
 };
-
