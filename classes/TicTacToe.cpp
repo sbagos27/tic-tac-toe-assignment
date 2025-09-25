@@ -247,10 +247,14 @@ void TicTacToe::updateAI() {
     std::string state = stateString();
     int bestMove = -10000;
     int bestSquare = -1;
+
+    int alpha = -100000;
+    int beta = +100000;
+
     for(int i = 0; i < 9; i++){
         if (state[i] == '0'){
             state[i] = '2';
-            int aiMove = -negamax(state, 0, HUMAN_PLAYER);
+            int aiMove = -negamax(state, 0, alpha, beta, HUMAN_PLAYER);
             state[i] = '0';
             if(aiMove > bestMove) {
                 bestMove = aiMove;
@@ -289,7 +293,7 @@ int checkForAIWinner(const std::string& state){
     return 0;
 }
 
-int TicTacToe::negamax(std::string& state, int depth, int playerColor){
+int TicTacToe::negamax(std::string& state, int depth, int alpha, int beta, int playerColor){
     int score = checkForAIWinner(state);
 
     if(score){
@@ -305,7 +309,7 @@ int TicTacToe::negamax(std::string& state, int depth, int playerColor){
     for(int i =0; i < 9; i++){
         if (state[i] == '0'){
             state[i] = playerColor == HUMAN_PLAYER ? '1' : '2';
-            bestVal = std::max(bestVal, -negamax(state, depth+1, -playerColor));
+            bestVal = std::max(bestVal, -negamax(state, depth+1, -beta, -alpha, -playerColor));
             state[i] = '0';
         }
     }
