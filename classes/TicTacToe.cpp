@@ -240,19 +240,6 @@ void TicTacToe::setStateString(const std::string &s)
 //
 // // this is the function that will be called by the AI
 // //
-// added this simple one to no give myself a headache - Senen
-// void TicTacToe::updateAI() 
-// {
-//     std::string state = stateString();
-//     for(int i=0; i<9; i++) {
-//         if (state[i] == '0') {
-
-//             actionForEmptyHolder(&_grid[i/3][i%3]);
-//             endTurn();
-//             return;
-//         }
-//     }
-// }
 
 void TicTacToe::updateAI() {
     // we will implement the AI in the next assignment!
@@ -273,11 +260,9 @@ void TicTacToe::updateAI() {
     }
 
     if (bestSquare != -1){
-        actionForEmptyHolder(&_grid[bestSquare / 3][bestSquare % 3]);
+        actionForEmptyHolder(&_grid[bestSquare % 3][bestSquare / 3]);
         endTurn();
-    } else {
-        std::cout << "best square was = to 1";
-    }
+    } 
 }
 
 bool isAIBoardFull(const std::string& state){
@@ -285,7 +270,7 @@ bool isAIBoardFull(const std::string& state){
 }
 
 int checkForAIWinner(const std::string& state){
-   const int winningCombos[8][3] = {
+   static const int winningCombos[8][3] = {
         {0,1,2}, {3,4,5}, {6,7,8}, // rows
         {0,3,6}, {1,4,7}, {2,5,8}, // cols
         {0,4,8}, {2,4,6}           // diagonals
